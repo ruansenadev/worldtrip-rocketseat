@@ -13,6 +13,10 @@ const theme = extendTheme({
 		body: "Poppins",
 		heading: "Poppins",
 	},
+	colors: {
+		Dark: "#47585B",
+    Highlight: "#FFBA08"
+	},
 	styles: {
 		global: {
 			body: {
