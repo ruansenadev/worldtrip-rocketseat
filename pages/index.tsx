@@ -1,16 +1,21 @@
 import { Box, Container, Divider, Flex, Grid, GridItem, Heading, Icon, IconProps, Image, LinkBox, LinkOverlay, Text, VStack } from "@chakra-ui/react";
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Styles from "../styles/Home.module.css";
+import { Continent } from "./types";
 
-const Home: NextPage = () => {
+interface HomeProps {
+	continents: Continent[];
+}
+
+const Home: NextPage<HomeProps> = ({ continents }) => {
 	return (
-		<Box>
+		<>
 			<Head>
 				<title>Worldtrip</title>
-				<meta name="description" content="React app desenvolvido com interface em ChakraUI, responsivo a partir de layout provido pela Rocketseat" />
+				<meta name="description" content="React app desenvolvido com interface em ChakraUI, responsivo, layout provido no Figma pela Rocketseat" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Box as="header">
@@ -23,8 +28,8 @@ const Home: NextPage = () => {
 				</Container>
 			</Box>
 
-			<Box as="section" color="white" backgroundImage="url(hero_background.jpg)" backgroundPosition="50% 35%">
-				<Container maxW="container.lg" mx="auto">
+			<Box as="section" color="white" backgroundImage="url(hero_background.jpg)" backgroundPosition="50% 35%" backgroundRepeat="no-repeat">
+				<Container maxW="container.lg">
 					<Box pos="relative" py="20">
 						<VStack maxW="md" spacing="5" alignItems="flex-start">
 							<Heading fontWeight="medium" lineHeight="1.5">
@@ -88,8 +93,8 @@ const Home: NextPage = () => {
 
 					<Box height={["sm", null, "md"]} color="white">
 						<Swiper className={Styles.swiper} modules={[Pagination, Navigation]} navigation pagination={{ type: "bullets", clickable: true }}>
-							<SwiperSlide>
-								<LinkBox h="full">
+							{continents.map((continent, i) => (
+								<SwiperSlide key={continent.name.split(" ").join("") + i}>
 									<Flex
 										h="full"
 										direction="column"
@@ -98,80 +103,55 @@ const Home: NextPage = () => {
 										backgroundImage="url(continents/europe-slide.jpg)"
 										backgroundPosition="center"
 										backgroundSize="cover"
+										textAlign="center"
 									>
-										<Heading as="h3" size="2xl" my="4">
-											Europa
-										</Heading>
-										<Text fontSize="2xl" fontWeight="bold">
-											O continente mais antigo.
-										</Text>
-										<LinkOverlay href="/continente" />
+										<LinkBox>
+											<Heading as="h3" size="2xl" my="4">
+												{continent.name}
+											</Heading>
+											{continent.title ?? (
+												<Text fontSize="2xl" fontWeight="bold">
+													{continent.title}
+												</Text>
+											)}
+											<LinkOverlay href={"/" + continent.name} />
+										</LinkBox>
 									</Flex>
-								</LinkBox>
-							</SwiperSlide>
-							<SwiperSlide>
-								<Flex
-									h="full"
-									direction="column"
-									align="center"
-									justify="center"
-									backgroundImage="url(continents/europe-slide.jpg)"
-									backgroundPosition="center"
-									backgroundSize="cover"
-								>
-									<Heading as="h3" size="2xl" my="4">
-										América do Sul
-									</Heading>
-									<Text fontSize="2xl" fontWeight="bold">
-										O continente mais antigo.
-									</Text>
-								</Flex>
-							</SwiperSlide>
-							<SwiperSlide>
-								<Flex
-									h="full"
-									direction="column"
-									align="center"
-									justify="center"
-									backgroundImage="url(continents/europe-slide.jpg)"
-									backgroundPosition="center"
-									backgroundSize="cover"
-								>
-									<Heading as="h3" size="2xl" my="4">
-										América do Norte
-									</Heading>
-									<Text fontSize="2xl" fontWeight="bold">
-										O continente mais antigo.
-									</Text>
-								</Flex>
-							</SwiperSlide>
-							<SwiperSlide>
-								<Flex
-									h="full"
-									direction="column"
-									align="center"
-									justify="center"
-									backgroundImage="url(continents/europe-slide.jpg)"
-									backgroundPosition="center"
-									backgroundSize="cover"
-								>
-									<Heading as="h3" size="2xl" my="4">
-										Ásia
-									</Heading>
-									<Text fontSize="2xl" fontWeight="bold">
-										O continente mais antigo.
-									</Text>
-								</Flex>
-							</SwiperSlide>
+								</SwiperSlide>
+							))}
 						</Swiper>
 					</Box>
 				</Container>
 			</Box>
-		</Box>
+		</>
 	);
 };
 
-const Logo = (props: IconProps) => (
+export const getStaticProps: GetStaticProps = async (ctx) => {
+	let continents: Continent[] = [];
+
+	try {
+		await fetch("http://localhost:3000/api/continents")
+			.then((res) => {
+				let headers = res.headers;
+				let contentType = headers.get("content-type");
+				console.log(res.status, contentType);
+				return res.json();
+			})
+			.then((data) => (continents = data.continents))
+			.catch((e) => console.log("Fetch erro", e));
+	} catch (e) {
+		console.log("Algum problema na rede...", e);
+	}
+
+	return {
+		props: { continents },
+	};
+};
+
+export default Home;
+
+export const Logo = (props: IconProps) => (
 	<Icon width="185" height="46" viewBox="0 0 185 46" fill="none" {...props}>
 		<path
 			d="M3.66966 18.1292L6.27676 28.1523C6.84638 30.3431 7.37218 32.3916 7.74463 34.4291H7.86512C8.31425 32.4354 8.96054 30.3212 9.6178 28.1523L12.8383 18.1292H15.8507L18.907 27.988C19.6409 30.3541 20.2105 32.4354 20.6596 34.4291H20.813C21.1934 32.2703 21.6944 30.1345 22.3137 28.0318L25.129 18.173H28.6781L22.3137 37.8906H19.0275L16.0151 28.4809C15.3249 26.2901 14.7553 24.3293 14.2624 22.007H14.2405C13.7465 24.1983 13.1284 26.3598 12.3892 28.4809L9.21249 37.8577H5.92623L0 18.1292H3.66966Z"
@@ -290,5 +270,3 @@ const Airplane = (props: IconProps) => (
 		</defs>
 	</Icon>
 );
-
-export default Home;

@@ -1,24 +1,6 @@
 import { NextApiHandler } from "next";
+import { Continent, Countries, TopCities } from "../types";
 
-type TopCities = { [Key: string]: TopCity[] };
-type TopCity = { name: string; background?: string; country?: Country };
-type Country = { name: string; flag?: string };
-type Countries = { [Key: string]: Country };
-type Continent = {
-	name: string;
-	description: string;
-	title?: string;
-	img: {
-		background?: string;
-		slide?: string;
-	};
-	statistics: {
-		countries: number;
-		languages: number;
-		top_cities: number;
-	};
-	top_cities: TopCity[];
-};
 
 const COUNTRIES: Countries = {
 	UnitedKingdom: { name: "United Kingdom", flag: "countries/uk-flag.png" },
@@ -228,7 +210,7 @@ const handler: NextApiHandler<{ continents: Continent | Continent[] }> = functio
 
 			return res.status(404).end({});
 		} else {
-			return res.status(200).end({ continents: CONTINENTS });
+			return res.status(200).json({ continents: CONTINENTS });
 		}
 	} else {
 		return res.status(405).end({});
