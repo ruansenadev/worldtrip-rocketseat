@@ -7,7 +7,7 @@ const COUNTRIES: Countries = {
 	France: { name: "France", flag: "countries/france-flag.png" },
 	Italy: { name: "Italy", flag: "countries/italy-flag.png" },
 	CzechRepublic: { name: "Czech Republic", flag: "countries/zcech-flag.png" },
-	Netherlands: { name: "Netherlands", flag: "countries/netherlands.png" },
+	Netherlands: { name: "Netherlands", flag: "countries/netherlands-flag.png" },
 };
 
 const TOP_CITIES: TopCities = {

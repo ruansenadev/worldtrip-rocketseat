@@ -18,18 +18,20 @@ const Home: NextPage<HomeProps> = ({ continents }) => {
 				<meta name="description" content="React app desenvolvido com interface em ChakraUI, responsivo, layout provido no Figma pela Rocketseat" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<Box as="header">
-				<Container maxW="container.lg" minH="24" display="flex" justifyContent="center" alignItems="center">
-					<LinkBox as="h1">
-						<LinkOverlay href="/">
-							<Logo />
-						</LinkOverlay>
-					</LinkBox>
+			<Box as="header" h="24">
+				<Container maxW="container.xl" h="full">
+					<Box as="nav" h="full" display="flex" justifyContent="center" alignItems="center">
+						<LinkBox as="h1">
+							<LinkOverlay href="/">
+								<Logo />
+							</LinkOverlay>
+						</LinkBox>
+					</Box>
 				</Container>
 			</Box>
 
 			<Box as="section" color="white" backgroundImage="url(hero_background.jpg)" backgroundPosition="50% 35%" backgroundRepeat="no-repeat">
-				<Container maxW="container.lg">
+				<Container maxW="container.xl">
 					<Box pos="relative" py="20">
 						<VStack maxW="md" spacing="5" alignItems="flex-start">
 							<Heading fontWeight="medium" lineHeight="1.5">
@@ -46,7 +48,7 @@ const Home: NextPage<HomeProps> = ({ continents }) => {
 			</Box>
 
 			<Box as="section">
-				<Container maxW="container.lg">
+				<Container maxW="container.xl">
 					<Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", null, "repeat(5, 1fr)"]} gap={[6]} py="20">
 						<GridItem textAlign="center">
 							<Image mx="auto" src="cocktail.svg" alt="Coquetel" />
@@ -85,7 +87,7 @@ const Home: NextPage<HomeProps> = ({ continents }) => {
 			</Box>
 
 			<Box as="section" my="10">
-				<Container maxW="container.lg">
+				<Container maxW="container.xl">
 					<Heading fontWeight="medium" textAlign="center" lineHeight="1.5" my="14">
 						Vamos nessa? <br />
 						Então escolha seu continente
