@@ -1,5 +1,5 @@
 import { NextApiHandler } from "next";
-import { Continent, Countries, TopCities } from "../types";
+import { IContinent, Countries, TopCities } from "../../types";
 
 
 const COUNTRIES: Countries = {
@@ -119,7 +119,7 @@ const TOP_CITIES: TopCities = {
 	Oceania: [{ name: "Sydney" }, { name: "Melbourne" }, { name: "Auckland" }],
 };
 
-const CONTINENTS: Continent[] = [
+const CONTINENTS: IContinent[] = [
 	{
 		name: "Europa",
 		title: "O continente mais antigo.",
@@ -197,7 +197,7 @@ const CONTINENTS: Continent[] = [
 	},
 ];
 
-const handler: NextApiHandler<{ continents: Continent | Continent[] }> = function (req, res) {
+const handler: NextApiHandler<{ continents: IContinent | IContinent[] }> = function (req, res) {
 	if (req.method === "GET") {
 		const continent = Array.isArray(req.query.continent) ? req.query.continent[0] : req.query.continent;
 

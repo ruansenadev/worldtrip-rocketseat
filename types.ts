@@ -1,12 +1,12 @@
-export type TopCities = { [Key: string]: TopCity[] };
+export type TopCities = { [Key: string]: ITopCity[] };
 
-export type TopCity = { name: string; background?: string; country?: Country };
+export type ITopCity = { name: string; background?: string; country?: Country };
 
 export type Country = { name: string; flag?: string };
 
 export type Countries = { [Key: string]: Country };
 
-export type Continent = {
+export type IContinent = {
 	name: string;
 	description: string;
 	title?: string;
@@ -19,5 +19,5 @@ export type Continent = {
 		languages: number;
 		top_cities: number;
 	};
-	top_cities: TopCity[];
+	top_cities: ITopCity[];
 };
