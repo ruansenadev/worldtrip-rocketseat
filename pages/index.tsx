@@ -35,9 +35,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 	try {
 		await fetch("http://localhost:3000/api/continents")
 			.then((res) => {
-				let headers = res.headers;
+				/* let headers = res.headers;
 				let contentType = headers.get("content-type");
-				console.log(res.status, contentType);
+				console.log(res.status, contentType); */
 				return res.json();
 			})
 			.then((data) => (continents = data.continents))

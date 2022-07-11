@@ -6,7 +6,6 @@ import { IContinent } from "../../../types";
 import Styles from "./styles.module.css";
 
 export function ContinentsSlider({ continents }: { continents: IContinent[] }) {
-	console.log(continents);
 	return (
 		<Swiper className={Styles.swiper} modules={[Pagination, Navigation]} navigation pagination={{ type: "bullets", clickable: true }}>
 			{continents.map((continent, i) => (
