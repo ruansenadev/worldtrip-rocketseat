@@ -1,39 +1,51 @@
-import { Box, Container, Divider, Grid, GridItem, Image, Text, TextProps } from "@chakra-ui/react";
+import { Box, Container, Divider, Grid, GridItem, Image, ScaleFade, Text, TextProps, useConst } from "@chakra-ui/react";
+import { useEffect, useRef } from "react";
+import usePageScroll from "../../../utils/hooks";
 
 export function TravelTypes() {
+	const { scrollViewY } = usePageScroll();
+	const items = useRef<HTMLDivElement[] | null[]>([]);
+	const animate = useConst<boolean[]>([]);
+
+	useEffect(() => {
+		if (items.current[0]) {
+			for (let i = 0, offsetTop, offsetHeight; i < items.current.length; i++) {
+				if (!animate[i] && items.current[i]) {
+					offsetTop = items.current[i]?.offsetTop;
+					offsetHeight = Number(items.current[i]?.offsetHeight);
+					if (offsetTop && scrollViewY >= offsetTop + offsetHeight) {
+						animate[i] = true;
+					}
+				}
+			}
+		}
+	}, [scrollViewY, items, animate]);
+
 	return (
 		<Box as="section">
 			<Container maxW="container.xl">
 				<Grid templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", null, "repeat(5, 1fr)"]} gap={[6]} py="20">
-					<GridItem textAlign="center">
-						<Image mx="auto" src="cocktail.svg" alt="Coquetel" />
-						<TravelTypesText>
-							vida noturna
-						</TravelTypesText>
-					</GridItem>
+					<ScaleFade ref={(el) => (items.current[0] = el)} initialScale={0.8} in={animate[0]}>
+						<GridItem textAlign="center">
+							<Image mx="auto" src="cocktail.svg" alt="Coquetel" />
+							<TravelTypesText>vida noturna</TravelTypesText>
+						</GridItem>
+					</ScaleFade>
 					<GridItem textAlign="center">
 						<Image mx="auto" src="surf.svg" alt="Prancha e Sol" />
-						<TravelTypesText>
-							praia
-						</TravelTypesText>
+						<TravelTypesText>praia</TravelTypesText>
 					</GridItem>
 					<GridItem textAlign="center" order={[-1, null, null, 0]} colSpan={[null, 2, null, "auto"]}>
 						<Image mx="auto" src="building.svg" alt="Edifício" />
-						<TravelTypesText>
-							moderno
-						</TravelTypesText>
+						<TravelTypesText>moderno</TravelTypesText>
 					</GridItem>
 					<GridItem textAlign="center">
 						<Image mx="auto" src="museum.svg" alt="Museu" />
-						<TravelTypesText>
-							clássico
-						</TravelTypesText>
+						<TravelTypesText>clássico</TravelTypesText>
 					</GridItem>
-					<GridItem textAlign="center">
+					<GridItem ref={(el) => (items.current[4] = el)} textAlign="center">
 						<Image mx="auto" src="earth.svg" alt="Globo" />
-						<TravelTypesText>
-							e mais...
-						</TravelTypesText>
+						<TravelTypesText>e mais...</TravelTypesText>
 					</GridItem>
 				</Grid>
 			</Container>

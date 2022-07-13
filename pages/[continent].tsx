@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Head from "next/head";
-import { IContinent } from "../types";
+import { IContinent } from "../utils/types";
 import { Header } from "../components/Header";
 import { Hero } from "../components/Continent/Hero";
 import { Info } from "../components/Continent/Info";

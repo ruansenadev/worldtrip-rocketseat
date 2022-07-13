@@ -1,5 +1,5 @@
 import { Box, Container, Heading, Flex } from "@chakra-ui/react";
-import { IContinent } from "../../../types";
+import { IContinent } from "../../../utils/types";
 
 export function Hero({ continent }: { continent: IContinent }) {
 	return (

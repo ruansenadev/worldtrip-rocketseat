@@ -2,7 +2,7 @@ import { Flex, Heading, LinkBox, LinkOverlay, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { IContinent } from "../../../types";
+import { IContinent } from "../../../utils/types";
 import Styles from "./styles.module.css";
 
 export function ContinentsSlider({ continents }: { continents: IContinent[] }) {

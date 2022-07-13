@@ -1,5 +1,5 @@
 import { Box, Container, Heading } from "@chakra-ui/react";
-import { IContinent } from "../../../types";
+import { IContinent } from "../../../utils/types";
 import { ContinentsSlider } from "./ContinentsSlider";
 
 export function ContinentsCTA({ continents }: { continents: IContinent[] }) {

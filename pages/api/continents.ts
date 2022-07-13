@@ -1,5 +1,5 @@
 import { NextApiHandler } from "next";
-import { IContinent, Countries, TopCities } from "../../types";
+import { IContinent, Countries, TopCities } from "../../utils/types";
 
 
 const COUNTRIES: Countries = {

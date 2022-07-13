@@ -1,6 +1,6 @@
 import { InfoOutlineIcon } from "@chakra-ui/icons";
 import { Box, Container, Flex, Text, SimpleGrid, Stack, Tooltip } from "@chakra-ui/react";
-import { IContinent } from "../../../types";
+import { IContinent } from "../../../utils/types";
 
 export function Info({ continent }: { continent: IContinent }) {
 	return (

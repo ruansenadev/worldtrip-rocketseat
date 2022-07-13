@@ -1,5 +1,5 @@
 import { Box, Container, Flex, Heading, SimpleGrid, Image, Text, Avatar } from "@chakra-ui/react";
-import { ITopCity } from "../../../types";
+import { ITopCity } from "../../../utils/types";
 
 export function TopCities({ topCities }: { topCities: ITopCity[] }) {
 	return (

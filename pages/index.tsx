@@ -4,7 +4,7 @@ import { Header } from "../components/Header";
 import { ContinentsCTA } from "../components/Home/ContinentsCTA";
 import { Hero } from "../components/Home/Hero";
 import { TravelTypes } from "../components/Home/TravelTypes";
-import { IContinent } from "../types";
+import { IContinent } from "../utils/types";
 
 interface HomeProps {
 	continents: IContinent[];
