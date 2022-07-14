@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { MutableRefObject, useEffect, useState } from "react";
 
-export default function usePageScroll(): { scrollY: number; maxY: number; isAtMax: boolean; scrollViewY: number } {
+export function usePageScroll(): { scrollY: number; maxY: number; isAtMax: boolean; scrollViewY: number } {
 	const [scheduled, setScheduled] = useState(false);
 	const [maxY, setMaxY] = useState(0);
 	const [isAtMax, setIsAtMax] = useState(false);
@@ -19,7 +19,7 @@ export default function usePageScroll(): { scrollY: number; maxY: number; isAtMa
 					setScheduled(false);
 					// update values
 					let { scrollY } = window;
-					setPageYOffset(window.scrollY);
+					setPageYOffset(scrollY);
 
 					if (scrollY >= maxY) {
 						setIsAtMax(true);
@@ -51,4 +51,56 @@ export default function usePageScroll(): { scrollY: number; maxY: number; isAtMa
 		isAtMax,
 		scrollViewY,
 	};
+}
+
+export function useScrollSpot(refs: MutableRefObject<HTMLElement | HTMLElement[] | null | null[]>, sliceSpot = 0.4): { [key: number]: boolean } {
+	const { scrollViewY } = usePageScroll();
+	const [spots, setSpots] = useState<{ [key: number]: number }>(Object.create(null));
+	// list ref spots
+	const [spoted, setSpoted] = useState<{ [key: number]: boolean }>(Object.create(null));
+	// list spoted
+
+	useEffect(() => {
+		let offsetHeight: number, offsetTop: number;
+		const newSpots = Object.create(null);
+
+		if (Array.isArray(refs.current)) {
+			refs.current.forEach((el, i) => {
+				if (el) {
+					offsetHeight = el.offsetHeight;
+					offsetTop = el.offsetTop;
+					newSpots[i] = sliceSpot > 1 ? offsetTop + sliceSpot : offsetTop + offsetHeight * sliceSpot;
+				}
+			});
+		} else if (refs.current) {
+			offsetHeight = refs.current.offsetHeight;
+			offsetTop = refs.current.offsetTop;
+			newSpots[0] = sliceSpot > 1 ? offsetTop + sliceSpot : offsetTop + offsetHeight * sliceSpot;
+		}
+
+		setSpots(newSpots);
+	}, [refs, sliceSpot]);
+
+	useEffect(() => {
+		let spotedUpdated, spotsUpdated;
+
+		for (let [i, y] of Object.entries(spots)) {
+			if (y <= scrollViewY) {
+				if (!spotedUpdated) spotedUpdated = { ...spoted };
+				if (!spotsUpdated) spotsUpdated = { ...spots };
+
+				spotedUpdated[+i] = true;
+
+				delete spotsUpdated[+i];
+			}
+		}
+
+		if (spotedUpdated && spotsUpdated) {
+			setSpoted(spotedUpdated);
+			setSpots(spotsUpdated);
+		}
+	}, [spots, scrollViewY, spoted]);
+
+	// returns an indexed reference spoted in view
+	return spoted;
 }
