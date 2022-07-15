@@ -61,21 +61,22 @@ export function useScrollSpot(refs: MutableRefObject<HTMLElement | HTMLElement[]
 	// list spoted
 
 	useEffect(() => {
-		let offsetHeight: number, offsetTop: number;
+		let curScrollY: number, offset: DOMRect;
 		const newSpots = Object.create(null);
 
 		if (Array.isArray(refs.current)) {
 			refs.current.forEach((el, i) => {
 				if (el) {
-					offsetHeight = el.offsetHeight;
-					offsetTop = el.offsetTop;
-					newSpots[i] = sliceSpot > 1 ? offsetTop + sliceSpot : offsetTop + offsetHeight * sliceSpot;
+					curScrollY = window.scrollY;
+          // bbox offset is relative to viewport
+					offset = el.getBoundingClientRect();
+					newSpots[i] = sliceSpot > 1 ? offset.top + curScrollY + sliceSpot : offset.top + curScrollY + offset.height * sliceSpot;
 				}
 			});
 		} else if (refs.current) {
-			offsetHeight = refs.current.offsetHeight;
-			offsetTop = refs.current.offsetTop;
-			newSpots[0] = sliceSpot > 1 ? offsetTop + sliceSpot : offsetTop + offsetHeight * sliceSpot;
+			curScrollY = window.scrollY;
+			offset = refs.current.getBoundingClientRect();
+			newSpots[0] = sliceSpot > 1 ? offset.top + curScrollY + sliceSpot : offset.top + curScrollY + offset.height * sliceSpot;
 		}
 
 		setSpots(newSpots);
