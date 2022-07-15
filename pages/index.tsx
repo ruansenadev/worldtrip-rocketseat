@@ -33,7 +33,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 	let continents: IContinent[] = [];
 
 	try {
-		await fetch("http://localhost:3000/api/continents")
+		await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/continents`)
 			.then((res) => {
 				/* let headers = res.headers;
 				let contentType = headers.get("content-type");
@@ -48,6 +48,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
 	return {
 		props: { continents },
+    revalidate: 5 * 60
 	};
 };
 

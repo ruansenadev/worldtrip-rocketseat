@@ -4,7 +4,7 @@ import { useScrollSpot } from "../../../utils/hooks";
 
 export function TravelTypes() {
 	const itemsRef = useRef<HTMLDivElement[] | null[]>([]);
-	const fade = useScrollSpot(itemsRef, .8);
+	const fade = useScrollSpot(itemsRef, 1);
 
 	return (
 		<Box as="section">
