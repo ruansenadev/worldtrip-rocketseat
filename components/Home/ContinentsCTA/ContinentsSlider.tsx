@@ -20,7 +20,7 @@ export function ContinentsSlider({ continents }: { continents: IContinent[] }) {
 						backgroundSize="cover"
 						textAlign="center"
 					>
-						<LinkBox>
+						<LinkBox className={Styles['slide-content']}>
 							<Heading as="h3" size="2xl" my="4">
 								{continent.name}
 							</Heading>

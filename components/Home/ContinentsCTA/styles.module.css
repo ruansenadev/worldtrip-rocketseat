@@ -7,3 +7,12 @@
   --swiper-pagination-bullet-inactive-color: #999;
   --swiper-pagination-bullet-inactive-opacity: 1;
 }
+
+
+.slide-content {
+  transition: ease-out .25s;
+}
+.slide-content:hover {
+  transform: scale(1.1);
+  transition: ease .35s;
+}
